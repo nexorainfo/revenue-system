@@ -12,6 +12,42 @@
         </a>
     </li>
 @endcan
+<li class="{{request()->is('admin/revenue/report*') ? 'active' : ''}}">
+    <a href="#sidebarRevenueReport"
+       {{request()->is('admin/revenue/report*') ? 'aria-expanded=true' : ''}}
+       data-bs-toggle="collapse">
+        <i class="fa fa-clipboard-list"></i>
+        <span>रिपोर्ट</span>
+        <span class="menu-arrow">
+            <i class="fas fa-angle-right"></i>
+        </span>
+    </a>
+    <div class="collapse {{request()->is('admin/revenue/report*') ? 'show' : ''}}"
+         id="sidebarRevenueReport">
+        <ul class="nav-second-level">
+            <li class="{{request()->is('admin/revenue/report') ? 'active' : ''}}">
+                <a href="{{route('admin.revenue.report.index')}}">
+                    <span>बिलहरु</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/revenue/report/invoice') ? 'active' : ''}}">
+                <a href="{{route('admin.revenue.report.invoice')}}">
+                    <span>वडा अनुसार रसिद</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/revenue/report/word-wise-invoice') ? 'active' : ''}}">
+                <a href="{{route('admin.revenue.report.word-wise-invoice')}}">
+                    <span>वडा अनुसार राजस्व</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/revenue/report/tax-payer') ? 'active' : ''}}">
+                <a href="{{route('admin.revenue.report.tax-payer')}}">
+                    <span>करदाताको प्रकार</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
 <li
     class="{{ request()->is('admin/generalSetting*') || request()->is('admin/generalSetting*') ? 'active' : '' }}">
     <a href="#generalSetting"

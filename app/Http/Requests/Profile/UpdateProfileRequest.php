@@ -19,7 +19,6 @@ class UpdateProfileRequest extends FormRequest
             'email' => ['required', 'email', Rule::unique('users', 'email')->withoutTrashed()->ignore(auth()->user())],
             'phone' => ['required', Rule::unique('users', 'phone')->withoutTrashed()->ignore(auth()->user())],
             'profile_photo_path' => ['nullable', 'image'],
-            'signature_photo_path' => ['nullable', 'image'],
         ];
     }
 }

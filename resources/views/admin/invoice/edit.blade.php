@@ -6,8 +6,8 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
-                            <a href="{{route('admin.revenue.dashboard')}}">
-                               <img class="icon me-1" src="{{asset('assets/backend/images/home.svg')}}" alt="document-icon">
+                            <a href="{{route('admin.dashboard')}}">
+
                             गृहपृष्ठ
                             </a>
                         </li>
@@ -35,37 +35,35 @@
                     <form action="{{route('admin.revenue.invoice.update', $invoice)}}" method="post">
                         @csrf
                         @method('PUT')
+
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <x-date-input-component
-                                    nameNe="payment_date" labelNe="मिति *"
-                                    nameEn="payment_date_en" labelEn="Date"
+                                    name_ne="payment_date" label_ne="मिति *"
+                                    name_en="payment_date_en" label_en="Date"
                                     editDateNe="{{$invoice->payment_date}}"
                                     editDateEn="{{$invoice->payment_date_en}}"
                                 />
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-2">
-                                <label for="tax_payer_id" class="form-label">करदाता</label>
-                                <select
-                                    name="tax_payer_id"
-                                    class="form-select @error('tax_payer_id') is-invalid @enderror"
-                                    id="tax_payer_id" data-toggle="select2" data-width="100%" required>
-                                    <option value="">--- छान्नुहोस् ---</option>
-                                    @foreach($taxPayers as $taxPayer)
-                                        <option
-                                            value="{{$taxPayer->id}}"
-                                            {{old('tax_payer_id', $invoice->tax_payer_id) == $taxPayer->id ? 'selected' : ''}}
-                                        >
-                                            ({{$taxPayer->registration_no}}) {{$taxPayer->name}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('tax_payer_id')
-                                <div class="invalid-feedback">{{$message}}</div>
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">सेवाग्राहीको नाम *</label>
+                                <input type="text" name="name" value="{{ old('name', $invoice->name) }}"
+                                       class="form-control @error('name') is-invalid @enderror"
+                                       id="name" placeholder="सेवाग्राहीको नाम" />
+                                @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="col-md-6">
+                                <label for="address" class="form-label">सेवाग्राहीको ठेगाना *</label>
+                                <input type="text" name="address" value="{{ old('address', $invoice->address) }}"
+                                       class="form-control @error('address') is-invalid @enderror"
+                                       id="address" placeholder="सेवाग्राहीको नाम" />
+                                @error('address')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="col-md-6 mb-2">
                                 <label for="fiscal_year_id" class="form-label">आर्थिक वर्ष</label>
                                 <select
@@ -106,7 +104,6 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
                                 </div>
-
                                 <div id="showIfBank" class="d-none">
                                     <label for="reference_code" class="form-label">Reference Code</label>
                                     <input
@@ -122,32 +119,10 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
                                 </div>
-
-                            </div>
-                            <div class="col-md-6 mb-2">
-                                <label for="ward" class="form-label">वार्ड *</label>
-                                <select
-                                    name="ward"
-                                    class="form-select @error('ward') is-invalid @enderror"
-                                    id="ward" data-toggle="select2" data-width="100%">
-                                    <option value="">--- छान्नुहोस् ---</option>
-
-                                    @foreach(get_local_bodies(localBodyId: $officeSetting->local_body_id)->ward_no as $ward)
-                                        <option
-                                            value="{{$ward}}"
-                                            {{old('ward', $invoice->ward) == $ward ? 'selected' : ''}}
-                                        >
-                                            {{$ward}}
-                                        </option>
-
-                                    @endforeach
-                                </select>
-                                @error('ward')
-                                <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
                             </div>
 
-                            @livewire('revenue::invoice-form-livewire', ['formDetail'=>old('particulars',$invoice->invoiceParticulars)])
+
+                            @livewire('invoice-form-livewire', ['formDetail'=>old('particulars',$invoice->invoiceParticulars?->toArray())])
 
                             <div class="col-md-12 mb-2">
                                 <label for="remarks" class="form-label">कैफियत *</label>

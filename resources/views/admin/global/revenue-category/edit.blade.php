@@ -6,8 +6,8 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
-                            <a href="{{route('admin.revenue.dashboard')}}">
-                               <img class="icon me-1" src="{{asset('assets/backend/images/home.svg')}}" alt="document-icon">
+                            <a href="{{route('admin.dashboard')}}">
+
                             गृहपृष्ठ
                             </a>
                         </li>
@@ -25,14 +25,14 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <h4 class="header-title">वर्ग सम्पादन गर्नुहोस</h4>
-                        <a href="{{route('admin.revenue.setting.revenue-category.index')}}"
+                        <a href="{{route('admin.generalSetting.revenue-category.index')}}"
                            class="btn btn-sm btn-outline-primary">
                             <i class="fa fa-list"></i> वर्ग सूची
                         </a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('admin.revenue.setting.revenue-category.update', $revenueCategory)}}"
+                    <form action="{{route('admin.generalSetting.revenue-category.update', $revenueCategory)}}"
                           method="post">
                         @csrf
                         @method('PATCH')

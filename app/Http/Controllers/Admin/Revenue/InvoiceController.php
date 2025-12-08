@@ -23,11 +23,12 @@ final class InvoiceController extends Controller
     {
         $this->checkAuthorization('invoice_access');
 
-        $invoices = Invoice::withSum(['invoiceParticulars' => function ($query) {
-            $query->select(DB::raw('SUM((rate * quantity) + (rate * quantity) * due ) as total'));
-        }], 'total')
+        $invoices = Invoice::query()
+            ->withSum(['invoiceParticulars' => function ($query) {
+                $query->select(DB::raw('SUM((rate * quantity) + (rate * quantity) * due ) as total'));
+            }], 'total')
             ->where('fiscal_year_id', officeSetting()->fiscal_year_id)
-            ->latest('payment_date_en')
+            ->latest('invoice_no')
             ->paginate(25);
 
         return view('admin.invoice.index', compact('invoices'));
@@ -39,7 +40,8 @@ final class InvoiceController extends Controller
 
         $fiscalYear = officeSetting()->fiscalYear;
 
-        $serialNumber  = $this->reserveInvoiceNumberForUser($fiscalYear);
+        // This returns the SAME number on every reload until saved or expired
+        $serialNumber  = $this->getOrReserveInvoiceNumber($fiscalYear);
         $invoiceNumber = $this->formatInvoiceNumber($fiscalYear, $serialNumber);
 
         $fiscalYears = FiscalYear::latest()->get();
@@ -60,26 +62,43 @@ final class InvoiceController extends Controller
             );
 
             $reservedNumber = $this->getReservedNumberForUser($fiscalYear);
+
             if (!$reservedNumber) {
-                abort(400, 'Invoice number expired. Please go back and reload the form.');
+                abort(400, 'Your invoice number has expired. Please reload the form.');
+            }
+
+            $invoiceNumber = $this->formatInvoiceNumber($fiscalYear, $reservedNumber);
+
+            // Final safety check: prevent duplicate even if collision
+            $exists = Invoice::withTrashed()
+                ->where('fiscal_year_id', $fiscalYear->id)
+                ->where('invoice_no', $invoiceNumber)
+                ->exists();
+
+            if ($exists) {
+                // Extremely rare case — generate fresh number
+                $reservedNumber = $this->generateNextAvailableNumber($fiscalYear);
+                $invoiceNumber = $this->formatInvoiceNumber($fiscalYear, $reservedNumber);
+                $this->reserveForUser($fiscalYear, $reservedNumber);
             }
 
             $invoice = Invoice::create(
                 $request->validated() + [
                     'user_id'        => auth()->id(),
-                    'invoice_no'     => $this->formatInvoiceNumber($fiscalYear, $reservedNumber),
+                    'invoice_no'     => $invoiceNumber,
                     'fiscal_year_id' => $fiscalYear->id,
                 ]
             );
 
             $this->syncParticulars($invoice, $request->input('particulars', []));
-            $this->releaseUserReservation($fiscalYear);
+
+            // Release reservation so next user gets next number
+            $this->clearUserReservation($fiscalYear);
 
             return $invoice;
         });
 
-        toast('नगदी रसिद सफलतापूर्वक थपियो | रसिद नं.: ' . $invoice->invoice_number, 'success');
-
+        toast('नगदी रसिद सफलतापूर्वक थपियो | रसिद नं.: ' . $invoice->invoice_no, 'success');
         return back();
     }
 
@@ -87,10 +106,10 @@ final class InvoiceController extends Controller
     {
         $this->checkAuthorization('invoice_access');
 
-        $invoice->loadMissing(['invoiceParticulars', 'user', 'fiscalYear'])
-            ->loadSum(['invoiceParticulars' => function ($query) {
-                $query->select(DB::raw('SUM((rate * quantity) ) as total'));
-            }], 'total');
+        $invoice->loadMissing(['invoiceParticulars', 'user', 'fiscalYear']);
+        $invoice->loadSum(['invoiceParticulars' => function ($query) {
+            $query->select(DB::raw('SUM((rate * quantity)) as total'));
+        }], 'total');
 
         $nepaliDate = get_nepali_number(adToBs($invoice->created_at->format('Y-m-d')));
 
@@ -100,9 +119,8 @@ final class InvoiceController extends Controller
     public function edit(Invoice $invoice): View|Factory
     {
         $this->checkAuthorization('invoice_edit');
-
-        $fiscalYears = FiscalYear::latest()->get();
         $invoice->loadMissing('invoiceParticulars');
+        $fiscalYears = FiscalYear::latest()->get();
 
         return view('admin.invoice.edit', compact('invoice', 'fiscalYears'));
     }
@@ -120,42 +138,62 @@ final class InvoiceController extends Controller
         });
 
         toast('नगदी रसिद सफलतापूर्वक सम्पादन भयो', 'success');
-
         return redirect()->route('admin.revenue.invoice.index');
     }
 
     public function destroy(Invoice $invoice): RedirectResponse
     {
         $this->checkAuthorization('invoice_delete');
-
         $invoice->delete();
 
         toast('नगदी रसिद सफलतापूर्वक हटाइयो', 'success');
-
         return redirect()->route('admin.revenue.invoice.index');
     }
 
     // =============================================================================
-    // INVOICE NUMBER GENERATION
+    // RELOAD-PROOF + SOFT-DELETE SAFE INVOICE NUMBER SYSTEM
     // =============================================================================
 
-    private function reserveInvoiceNumberForUser(FiscalYear $fiscalYear): int
+    /**
+     * Returns SAME number on every reload (F5) until saved or expired
+     */
+    private function getOrReserveInvoiceNumber(FiscalYear $fiscalYear): int
     {
-        $userKey = $this->getUserReservationKey($fiscalYear);
+        $userKey = $this->userReservationKey($fiscalYear);
 
+        // If user already has a reserved number → return it (RELOAD SAFE)
         if ($reserved = Cache::get($userKey)) {
-            return $reserved;
+            return (int) $reserved;
         }
 
+        // First time → generate and reserve
+        return $this->generateNextAvailableNumber($fiscalYear);
+    }
+
+    /**
+     * Generate next valid number (respects soft-deletes, never goes backward)
+     */
+    private function generateNextAvailableNumber(FiscalYear $fiscalYear): int
+    {
         $lockKey    = "invoice_global_lock:fy:{$fiscalYear->id}";
         $counterKey = "invoice_global_counter:fy:{$fiscalYear->id}";
+        $userKey    = $this->userReservationKey($fiscalYear);
 
-        $lock = Cache::lock($lockKey, 10);
+        return Cache::lock($lockKey, 10)->block(10, function () use ($fiscalYear, $counterKey, $userKey) {
+            // Get highest number from DB (including soft-deleted)
+            $highest = Invoice::withTrashed()
+                ->where('fiscal_year_id', $fiscalYear->id)
+                ->whereNotNull('invoice_no')
+                ->orderByRaw("CAST(SUBSTRING(invoice_no, LOCATE('-', invoice_no) + 1) AS UNSIGNED) DESC")
+                ->value(DB::raw("CAST(SUBSTRING(invoice_no, LOCATE('-', invoice_no) + 1) AS UNSIGNED)")) ?? 0;
 
-        return $lock->block(10, function () use ($counterKey, $userKey) {
-            $next = Cache::get($counterKey, 0) + 1;
+            $cached = Cache::get($counterKey, 0);
+            $next   = max($highest, $cached) + 1;
 
+            // Reserve for this user
             Cache::put($userKey, $next, now()->addSeconds(self::RESERVATION_TTL));
+
+            // Update global counter
             Cache::forever($counterKey, $next);
 
             return $next;
@@ -164,15 +202,20 @@ final class InvoiceController extends Controller
 
     private function getReservedNumberForUser(FiscalYear $fiscalYear): ?int
     {
-        return Cache::get($this->getUserReservationKey($fiscalYear));
+        return Cache::get($this->userReservationKey($fiscalYear));
     }
 
-    private function releaseUserReservation(FiscalYear $fiscalYear): void
+    private function reserveForUser(FiscalYear $fiscalYear, int $number): void
     {
-        Cache::forget($this->getUserReservationKey($fiscalYear));
+        Cache::put($this->userReservationKey($fiscalYear), $number, now()->addSeconds(self::RESERVATION_TTL));
     }
 
-    private function getUserReservationKey(FiscalYear $fiscalYear): string
+    private function clearUserReservation(FiscalYear $fiscalYear): void
+    {
+        Cache::forget($this->userReservationKey($fiscalYear));
+    }
+
+    private function userReservationKey(FiscalYear $fiscalYear): string
     {
         return "invoice_reserved:user:" . auth()->id() . ":fy:{$fiscalYear->id}";
     }
@@ -190,14 +233,13 @@ final class InvoiceController extends Controller
     {
         $keepIds = collect();
 
-        foreach ($particulars as $particular) {
+        foreach ($particulars ?? [] as $particular) {
             if (empty(array_filter($particular))) continue;
 
             $p = InvoiceParticular::updateOrCreate(
                 ['invoice_id' => $invoice->id, 'id' => $particular['id'] ?? null],
                 \Arr::except($particular, ['id'])
             );
-
             $keepIds->push($p->id);
         }
 

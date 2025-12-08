@@ -15,7 +15,7 @@
                         id="cacheBtn"
                         type="button"
                         data="{{route('admin.cache-clear')}}">
-                        <i class="lnr lnr-trash"></i>
+                        <i class="fas fa-brush"></i>
                     </button>
                 </div>
             </li>
@@ -115,12 +115,12 @@
 
         <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
             <li>
-                <button class="button-menu-mobile waves-effect waves-light">
+                <button class="button-menu-mobile waves-effect ">
                     <i class="lnr lnr-menu"></i>
                 </button>
             </li>
             <li class="d-none d-xl-block">
-                <h3 class="top-heading text-light fw-bold">
+                <h3 class="top-heading text-white fw-bold">
                     {{config('app.name') ?? ''}}
                 </h3>
             </li>

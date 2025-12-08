@@ -1,10 +1,21 @@
-@props(['name_ne'=>'', 'label_ne'=>'', 'name_en'=>'', 'label_en'=>''])
+@props([
+    'name_ne'=>'',
+    'label_ne'=>'',
+    'name_en'=>'',
+    'label_en'=>'',
+    'editDateNe'=> '',
+    'editDateEn'=> '',
+    'showEnglishDate'=>false,
+    'range'=>false,
+    'disableDate'=>false,
+    'disableDays'=>false,
+])
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-{{$showEnglishDate ? "6": "12"}}">
         <label for="{{$name_ne}}">{{$label_ne}}</label>
         <input type="text" name="{{$name_ne}}" class="form-control" id="{{$name_ne}}">
     </div>
-    <div class="col-md-6">
+    <div class=" {{$showEnglishDate ? "col-md-6": "d-none"}}">
         <label for="{{$name_en}}">{{$label_en}}</label>
         <input type="date" name="{{$name_en}}" class="form-control" id="{{$name_en}}"  pattern="\d{4}-\d{2}-\d{2}" readonly>
     </div>
@@ -49,8 +60,8 @@
                                 let englishDate = NepaliFunctions.BS2AD(parsedDate.parsedDate, "YYYY-MM-DD")
                                 $("#{{$name_en}}").val(englishDate)
                     },
-                "maxDate": {"year":parsedNepaliDate.year, "month":parsedNepaliDate.month,"day":parsedNepaliDate.day},
-                    "disableDaysAfter":1
+                    // "maxDate": {"year":parsedNepaliDate.year, "month":parsedNepaliDate.month,"day":parsedNepaliDate.day},
+                    // "disableDaysAfter":1
                 });
 
 

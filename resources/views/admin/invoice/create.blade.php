@@ -8,8 +8,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.dashboard') }}">
-                                <img class="icon me-1" src="{{ asset('assets/backend/images/home.svg') }}"
-                                    alt="document-icon">
+
                                 गृहपृष्ठ
                             </a>
                         </li>
@@ -38,7 +37,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <x-date-input-component name_en="payment_date" label_ne="मिति *" name_ne="payment_date_en"
+                                <x-date-input-component name_en="payment_date_en" label_ne="मिति *" name_ne="payment_date"
                                     label_en="Date" />
                             </div>
 

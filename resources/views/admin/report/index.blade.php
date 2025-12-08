@@ -6,8 +6,7 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.plan.dashboard') }}">
-                                <img class="icon me-1" src="{{ asset('assets/backend/images/home.svg') }}" alt="document-icon">
+                            <a href="{{ route('admin.dashboard') }}">
                                 गृहपृष्ठ
                             </a>
                         </li>
@@ -27,12 +26,12 @@
                         <h4 class="header-title">राजस्व रिपोर्ट</h4>
                         <div class="d-flex gap-1 justify-content-between">
                             <button class="btn btn-sm btn-outline-secondary waves-effect waves-light collapsed"
-                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilterForm"
-                                aria-expanded="false" aria-controls="collapseExample">
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilterForm"
+                                    aria-expanded="false" aria-controls="collapseExample">
                                 <i class="fa fa-filter"> फिल्टर</i>
                             </button>
-                            <x-html-to-excel file-name="राजस्व रिपोर्ट" target-table="report-table" />
-                            <x-print-button target-element="report-table" title="राजस्व रिपोर्ट" :header-required="true" />
+                            <x-html-to-excel file-name="राजस्व रिपोर्ट" target-table="report_table" />
+                            <x-print-button target-element="report_table" title="राजस्व रिपोर्ट" :header-required="true" />
                         </div>
                     </div>
                 </div>
@@ -41,65 +40,49 @@
                         <form id="report-filter-form" data-bs-url="{{ route('admin.revenue.report.report-data') }}">
                             <div class="row">
                                 <div class="col-md-3 mb-2">
-                                    <x-date-input-component nameNe="from_date" labelNe="मिति देखि" nameEn="en_from_date"
-                                        labelEn="From Date" :get-today-date="false" />
+                                    <x-date-input-component name_ne="from_date" label_ne="मिति देखि" name_en="en_from_date"
+                                                            label_en="From Date" :get-today-date="false" />
                                 </div>
                                 <div class="col-md-3">
-                                    <x-date-input-component nameNe="to_date" labelNe="मिति सम्म" nameEn="en_to_date"
-                                        labelEn="To Date" :get-today-date="false" />
+                                    <x-date-input-component name_ne="to_date" label_ne="मिति सम्म" name_en="en_to_date"
+                                                            label_en="To Date" :get-today-date="false" />
                                 </div>
                                 <div class="col-md-3 mb-2">
                                     <label for="fiscal_year">आर्थिक बर्ष</label>
-                                    <select name="fiscal_year[]" multiple data-toggle="select2" id="fiscal_year"
-                                        class="form-control">
+                                    <select name="fiscal_year" id="fiscal_year"
+                                            class="form-control">
                                         <option disabled>--- छान्नुहोस् ---</option>
                                         @foreach ($fiscalYears as $fiscalYear)
                                             <option value="{{ $fiscalYear->id }}">{{ $fiscalYear->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3 mb-2">
-                                    <label for="ward_no">वडा नं.</label>
-                                    <select name="ward_no[]" multiple data-toggle="select2" id="ward_no"
-                                        class="form-control">
-                                        <option disabled>--- छान्नुहोस् ---</option>
-                                        @foreach ($officeSetting->localBody->ward_no as $ward)
-                                            <option value="{{ $ward }}">{{ $ward }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <div class="col-md-3 mb-2 d-flex gap-1">
+                                    <div class="col">
+                                        <label for="payment_method" class="form-label">भुक्तानी बिधि</label>
+                                        <select name="payment_method"
+                                                class="form-select @error('payment_method') is-invalid @enderror"
+                                                id="payment_method" >
+                                            <option value="" {{ old('payment_method') == '' ? 'selected' : '' }}>-- select ---
+                                            </option>
+                                            <option value="Cash" {{ old('payment_method') == 'Cash' ? 'selected' : '' }}>नगद
+                                            </option>
+                                            <option value="Bank" {{ old('payment_method') == 'Bank' ? 'selected' : '' }}>बैंक
+                                            </option>
+                                        </select>
+                                        @error('payment_method')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                             </div>
-                            <fieldset class="border p-2 mb-2">
-                                <legend class="font-16 text-info">
-                                    <strong>
-                                        Columns
-                                    </strong>
-                                </legend>
-                                <div class="row">
-                                    @foreach ($columnData as $columns)
-                                        <div class="col-md-3 mb-2">
-                                            <label for="column.{{ $columns['table_name'] }}">{{ $columns['name'] }}</label>
-                                            <select name="columns[{{ $columns['table_name'] }}][]"
-                                                id="column.{{ $columns['table_name'] }}" multiple data-toggle="select2"
-                                                class="form-control">
-                                                <option disabled>--- छान्नुहोस् ---</option>
-                                                @foreach ($columns['columns'] as $column)
-                                                    <option value="{{ $column['column'] ?? '' }}">
-                                                        {{ $column['name'] ?? '' }}</option>
-                                                @endforeach
-                                            </select>
-
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </fieldset>
+                            </div>
                             <button type="submit" id="submitFormBtn" class="btn btn-primary">
                                 पेश गर्नुहोस्
                             </button>
 
                         </form>
                     </div>
-                    <div id="report-table" class="table-responsive"></div>
+                    <div id="report_table" class="table-responsive"></div>
                 </div>
             </div>
         </div>
@@ -114,78 +97,6 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-
-                $(document.body).delegate('#plan_area_id', 'change', function(e) {
-                    let plan_area_id = $('#plan_area_id').val()
-                    $('#plan_sub_area_id').html('<option disabled>--- छान्नुहोस् ---</option>')
-                    if (!plan_area_id.length) {
-                        return false;
-                    }
-                    $.ajax({
-                        type: 'get',
-                        data: {
-                            plan_area_id: plan_area_id
-                        },
-                        url: "{{ route('admin.plan.planSubArea') }}",
-                        success: function(resp) {
-                            $(resp.data).each(function(key, data) {
-                                $('#plan_sub_area_id').append("<option value=" + data.id +
-                                    ">" + data.area_name + "</option>")
-                            })
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            toastMessage('error', XMLHttpRequest.responseJSON.message)
-                        }
-                    })
-                })
-
-                $(document.body).delegate('#plan_level_id', 'change', function(e) {
-                    let plan_level_id = $('#plan_level_id').val()
-                    $('#plan_sub_level_id').html('<option disabled>--- छान्नुहोस् ---</option>')
-                    if (!plan_level_id.length) {
-                        return false;
-                    }
-                    $.ajax({
-                        type: 'get',
-                        data: {
-                            plan_level_id: plan_level_id
-                        },
-                        url: "{{ route('admin.plan.planSubLevel') }}",
-                        success: function(resp) {
-                            $(resp.data).each(function(key, data) {
-                                $('#plan_sub_level_id').append("<option value=" + data.id +
-                                    ">" + data.level_name + "</option>")
-                            })
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            toastMessage('error', XMLHttpRequest.responseJSON.message)
-                        }
-                    })
-                })
-
-                $(document.body).delegate('#budget_head_id', 'change', function(e) {
-                    let budget_head_id = $('#budget_head_id').val()
-                    $('#budget_sub_head_id').html('<option disabled>--- छान्नुहोस् ---</option>')
-                    if (!budget_head_id.length) {
-                        return false;
-                    }
-                    $.ajax({
-                        type: 'get',
-                        data: {
-                            budget_head_id: budget_head_id
-                        },
-                        url: "{{ route('admin.plan.budgetSubHead') }}",
-                        success: function(resp) {
-                            $(resp.data).each(function(key, data) {
-                                $('#budget_sub_head_id').append("<option value=" + data.id +
-                                    ">" + data.title + "</option>")
-                            })
-                        },
-                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            toastMessage('error', XMLHttpRequest.responseJSON.message)
-                        }
-                    })
-                })
 
                 function toastMessage(type, title) {
                     swal.fire({

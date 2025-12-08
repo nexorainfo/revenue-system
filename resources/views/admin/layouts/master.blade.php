@@ -27,9 +27,6 @@
 </head>
 
 <body>
-<div id="preloader">
-    <img class="heartBeat animate" src="{{ asset('assets/backend/images/logo.png') }}" alt="">
-</div>
 <div id="wrapper">
     @include('admin.layouts.header')
     @include('admin.layouts.side_nav')
@@ -41,12 +38,12 @@
         </div>
         <footer class="footer">
             <div class="container-fluid text-center">
-                {{ date('Y') }} &copy; {{config('app.name')}} </a>
+                {{ date('Y') }} &copy; {{config('app.name')}}
             </div>
         </footer>
     </div>
 </div>
-<div class="rightbar-overlay"></div>
+<script src="{{ asset('assets/frontend/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/backend/js/vendor.min.js') }}"></script>
 <script src="{{ asset('assets/backend/js/plugins/select2.min.js') }}"></script>
 <script src="{{ asset('assets/backend/js/plugins/sweetalert2.min.js') }}"></script>
@@ -56,10 +53,10 @@
 @stack('scripts')
 @livewireScripts
 
+
 <script src="{{ asset('assets/backend/js/app.min.js') }}"></script>
 <script src="{{ asset('assets/backend/js/custom.js') }}"></script>
 <script src="{{ asset('assets/backend/print/print.min.js') }}"></script>
-<script src="{{ asset('assets/frontend/js/jquery.min.js') }}"></script>
 </body>
 
 </html>

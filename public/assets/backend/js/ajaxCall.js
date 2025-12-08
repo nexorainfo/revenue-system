@@ -1,9 +1,9 @@
 function createTable(headerData, bodyData) {
-    const tableDiv = document.getElementById("report-table");
+    const tableDiv = document.getElementById("report_table");
     tableDiv.innerHTML = "";
 
     const table = document.createElement("table");
-    table.className = "table table-bordered table-striped table-condensed";
+    table.className = "table table-bordered table-striped table-sm";
 
     const thead = document.createElement("thead");
     const tBody = document.createElement("tbody");
@@ -14,13 +14,12 @@ function createTable(headerData, bodyData) {
     header.appendChild(SnCell);
     headerData.forEach((element) => {
         const headerCell = document.createElement("th");
-        headerCell.className='text-nowrap'
+        headerCell.className = 'text-nowrap'
         const cellHeader = document.createTextNode(element);
         headerCell.appendChild(cellHeader);
         header.appendChild(headerCell);
     });
 
-    const headerLength = headerData.length;
     thead.appendChild(header);
     table.appendChild(thead);
 
@@ -30,26 +29,11 @@ function createTable(headerData, bodyData) {
 
         const cell = document.createElement("td");
 
-        cell.innerHTML =key+1;
+        cell.innerHTML = getNepaliNumber(key + 1);
 
         row.appendChild(cell);
         table.appendChild(row);
-        const childRow = document.createElement("tr");
-        // hidden
-// if (Object.values(element).some(Array.isArray)) {
-    childRow.className = " tr-detail" + key;
-    childRow.id = "tr-detail" + key;
-    const SnTd = document.createElement("td");
-    childRow.appendChild(SnTd);
 
-    const DataTd = document.createElement("td");
-    DataTd.colSpan = headerLength;
-
-    const DivElement = document.createElement("div");
-    DivElement.className = "detail-content";
-
-    const UlElement = document.createElement("ul");
-// }
         Object.entries(element).forEach((value, index) => {
             if (value[1] instanceof Array) {
                 const LiElement = document.createElement("li");
@@ -121,14 +105,9 @@ function createTable(headerData, bodyData) {
             }
         });
         tBody.appendChild(row);
-        // if (Object.values(element).some(Array.isArray)) {
-            DivElement.appendChild(UlElement);
-            DataTd.appendChild(DivElement);
-            childRow.appendChild(DataTd);
-        // }
-        tBody.appendChild(childRow);
+
     });
-table.appendChild(tBody);
+    table.appendChild(tBody);
     tableDiv.appendChild(table);
     return tableDiv;
 }
@@ -199,3 +178,14 @@ $(document).ready(function () {
     }
 });
 
+function getNepaliNumber(data) {
+    const english = ['1','2','3','4','5','6','7','8','9','0'];
+    const nepali  = ['१','२','३','४','५','६','७','८','९','०'];
+
+    let result = data.toString();
+    english.forEach((num, index) => {
+        result = result.replaceAll(num, nepali[index]);
+    });
+
+    return result;
+}

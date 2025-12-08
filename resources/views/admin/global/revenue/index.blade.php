@@ -7,7 +7,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.dashboard') }}">
-                                <img class="icon me-1" src="{{ asset('assets/backend/images/home.svg') }}" alt="document-icon">
+
                                 गृहपृष्ठ
                             </a>
                         </li>
@@ -86,7 +86,7 @@
                                                     @csrf
                                                     @method('delete')
                                                     <button data-bs-type="delete"
-                                                        class="btn btn-xs btn-outline-danger"
+                                                        class="btn btn-xs btn-outline-danger show_confirm"
                                                         title="मेटाउनु होस्">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                             fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">

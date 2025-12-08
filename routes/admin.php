@@ -9,9 +9,11 @@ use App\Http\Controllers\Admin\GeneralSetting\OfficeSettingController;
 use App\Http\Controllers\Admin\GeneralSetting\RevenueCategoryController;
 use App\Http\Controllers\Admin\GeneralSetting\RevenueController;
 use App\Http\Controllers\Admin\Revenue\InvoiceController;
+use App\Http\Controllers\Admin\Revenue\ReportController;
 use App\Http\Controllers\Admin\UserManagement\RoleController;
 use App\Http\Controllers\Admin\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ProfileController;
 
 Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 Route::patch('profile/update', [ProfileController::class, 'updateProfile'])->name('updateProfile');
@@ -37,6 +39,17 @@ Route::get('activityLog', [ActivityLogController::class, 'index'])->name('activi
 
 Route::prefix('revenue')->as('revenue.')->group(function () {
     Route::resource('invoice', InvoiceController::class)->names('invoice');
+
+    Route::prefix('report')->as('report.')->controller(ReportController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('report', 'report')->name('report-data');
+        Route::get('invoice', 'invoice')->name('invoice');
+        Route::post('invoice-report', 'invoiceReport')->name('invoice-report');
+        Route::get('tax-payer', 'taxPayer')->name('tax-payer');
+        Route::post('tax-payer-report', 'taxPayerReport')->name('tax-payer-report');
+        Route::get('word-wise-invoice', 'wordWiseInvoice')->name('word-wise-invoice');
+        Route::post('word-wise-invoice-report', 'wordWiseInvoiceReport')->name('word-wise-invoice-report');
+    });
 });
 
 Route::prefix('generalSetting')->as('generalSetting.')->group(function () {
