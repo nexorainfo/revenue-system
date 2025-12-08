@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url('https://cdn.linearicons.com/free/1.0.0/icon-font.min.css');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&display=swap');
+
+// Font Family
+$body-font: 'Mukta', sans-serif;
+$heading-font: 'Mukta', sans-serif;;
+
+$fontawesome: 'FontAwesome';
+//  Font Sizes
+$primary-font-size: 15px;
+$primary-heading-title-font-size: 26px;
+$primary-body-title-font-size: 18px;
+$body-font-size: 16px;
+$body-info-font-size:14px;
+$amount-font-size: 20px;
+
+// font-weight-veriable 
+$font-heavy: 800; 
+$font-bold: 700; 
+$font-medium: 600; 
+$font-light: 600; 
+$font-extra-light: 300; 
+
+// Colors ---------------
+$white: #ffffff;
+$black: #000000;
+$bg-grey: #F3F4F6;
+$grey: #DFDFDF;
+$dark-grey: #495057;
+$light-bg: #F4F6FC;
+$hover-color:#3a57a4;
+$light-primary:#EAF1FE;
+// Body Color
+$body-color: #303030    ;
+$body-light: #DEDEDE;
+
+// Template Colors
+$primary: #003893;
+$secondary: #ED1C24;
+$tertiary: #202f63;
+$color-fourth: #BAD7FF;
+$form-border-color: #c6c6c6;
+$success: #34C38F;
+$danger: #ED1C24;
+$warning: #FFC107;
+$info: #17a2b8;
+$light: #f8f9fa;
+$light-dark: #888888;
+$dark: #343a40;
+$rating: #FFC107;
+
+$transparent: transparent;
+$transition-default: all .5s linear;
+$primary-border-radius:6px;
+$shadow-primary: 0px 0px 12px lighten($primary, 68%);
+
+$padding-default: 24px;
+
+
+// Socail Color
+$android: #7AC157;
+$apple: #B8B8B8;
+$behance: #1869FF;
+$codepen: $black;
+$dribbble: #EA4C8A;
+$dropbox: #007EE5;
+$evernote: #78D525;
+$facebook: #4867AA;
+$github: #313131;
+$google-drive: #1DA462;
+$google-earth: #4285F4;
+$google-glass: #EA4335;
+$google-maps: #5083C3;
+$google-play: #01B9FD;
+$google-plus: #DD5144;
+$google: #4285F4;
+$instagram: #B23A94;
+$css3: #0277BD;
+$html5: #E44D26;
+$javascript: #F9DC3D;
+$python: #0C9DBF;
+$lastfm: #E31B23;
+$linkedin: #007BB6;
+$paypal: #002F86;
+$pinterest: #BD081B;
+$pocket: #EF3E56;
+$polymer: #F87292;
+$rss: #F99C3A;
+$share: #2C9CFF;
+$stackoverflow: #F38024;
+$steam: #15497B;
+$twitter: #1DA1F2;
+$vk: #5181B8;
+$wikipedia: #E9E9E9;
+$windows: #0078D6;
+$s500px: $black;
+$s8tracks: #122D4B;
+$amazon: #F79B34;
+$blogger: #F06A35;
+$delicious: #0000FE;
+$disqus: #2E9EFE;
+$flattr: #7AB831;
+$flickr: #FE0084;
+$odnoklassniki: #F58220;
+$outlook: #0072C6;
+$playstation: #07418E;
+$reddit: #FF4500;
+$skype: #00A9F0;
+$slideshare: #0077B5;
+$soundcloud: #FE4900;
+$tumblr: #36465D;
+$twitch: #6441A4;
+$vimeo: #1AB7EA;
+$whatsapp: #189D0E;
+$xbox: #107C0F;
+$yahoo: #4101AF;
+$youtube: #FE0000;
+
+
+
+// Responsive Variables
+$extraBig-device-1500 : 'only screen and (min-width: 1500px)';
+$laptop-device-1200 : 'only screen and (min-width: 1200px) and (max-width: 1499px)';
+$desktop-device-992 : 'only screen and (min-width: 992px) and (max-width: 1199px)';
+$tablet-device-768:'only screen and (min-width: 768px) and (max-width: 991px)';
+$extra-large-mobile-991:'only screen and (max-width: 991px)';
+$large-mobile-767:'only screen and (max-width: 767px)';
+$small-mobile-575: 'only screen and (max-width: 575px)';
+$extra-small-mobile-375: 'only screen and (max-width: 375px)';
+

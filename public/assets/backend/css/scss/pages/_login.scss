@@ -1,0 +1,5 @@
+.login-signup{
+  @extend .font-md;
+  min-height: calc(81vh);
+  @include flex(center, center, 0);
+}

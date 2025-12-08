@@ -1,0 +1,21 @@
+
+// @function rectangle($height, $width, $border-radius) {
+//   $aspect-ratio: ($height / $width) * 100%; // Calculate the aspect ratio
+//   $border-radius: $border-radius / $aspect-ratio; // Adjust the border radius based on the aspect ratio
+
+//   @return (
+//     height: $height,
+//     width: $width,
+//     border-radius: $border-radius,
+//     // background-color: #ccc,
+//   );
+// }
+
+// @function responsive-height($height, $width, $border-radius) {
+//   @return (
+//     height: $height,
+//     width: $width,
+//     border-radius: $border-radius,
+//     // background-color: #ccc,
+//   );
+// }

@@ -1,0 +1,25 @@
+.user-card {
+    .pp-image {
+        @include rectangle(78px, 78px, 78px);
+    }
+    .user-background {
+        p {
+            margin-bottom: 5px;
+            display: flex;
+            strong {
+                @extend .font-medium;
+                width: 85px;
+                display: block;
+                flex: 85px 0 0;
+                position: relative;
+                margin-right: 8px;
+                &::before {
+                    position: absolute;
+                    content: ":";
+                    right: 0;
+                    top: 0;
+                }
+            }
+        }
+    }
+}

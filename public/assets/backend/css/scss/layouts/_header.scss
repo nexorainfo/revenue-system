@@ -1,0 +1,70 @@
+header {
+  background: $white;
+  .navbar {
+    padding: 4px 0px;
+  }
+  .navbar-brand {
+    height: 60px;
+  }
+  .navbar-nav {
+    .nav-link {
+      color: $primary;
+      @extend .font-medium;
+      padding: 10px 20px;
+      &:hover {
+        color: $secondary;
+        // transition: all 1s;
+        // transform : scaleX(1.5);
+      }
+      &.active {
+        color: $secondary;
+        position: relative;
+        &::before {
+          position: absolute;
+          content: "";
+          $width: 60%;
+          left: calc((100% - $width) / 2);
+          bottom: 0;
+          background: $secondary;
+          @include rectangle(3px, $width, 3px);
+          @media #{$large-mobile-767} {
+            left: 0;
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.user-profile {
+  .dropdown {
+    .user-pp {
+      @include rectangle(50px, 50px, 50px);
+    }
+    .btn {
+      @include flex(flex-start, center, 8px);
+      flex-direction: row;
+      padding: 0;
+      background: transparent;
+      border: 0;
+    }
+    .custom-dropdown-menu {
+      box-shadow: $shadow-primary;
+      a {
+        @include flex(flex-start, center, 4px);
+        padding: 6px 12px;
+      }
+    }
+  }
+  @media #{$large-mobile-767} {
+    margin-top: 16px;
+  }
+}
+.custom-dropdown-menu {
+  box-shadow: $shadow-primary;
+  a {
+    @include flex(flex-start, center, 4px);
+    padding: 6px 12px;
+  }
+}

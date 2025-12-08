@@ -1,0 +1,28 @@
+.scroll {
+    overflow: scroll;
+}
+
+.scroll-y {
+    overflow-y: scroll;
+}
+
+.scroll-x {
+    overflow-x: scroll;
+}
+
+.scrollbar-sm::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+    background-color: $light-bg;
+    border-radius: 10px;
+  }
+  
+  .scrollbar-sm::-webkit-scrollbar {
+    width: 3px;
+    background-color: $light-bg;
+    border-radius: 10px;
+}
+
+.scrollbar-sm::-webkit-scrollbar-thumb {
+    background-color: #b6c3c6;
+    border-radius: 10px;
+}

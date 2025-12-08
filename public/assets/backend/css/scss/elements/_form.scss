@@ -1,0 +1,192 @@
+form {}
+
+.form-label, label {
+    margin-bottom: 5px !important;
+    color: $dark-grey;
+    @extend .font-medium;
+    @extend .font-md;
+}
+
+.form-control,
+.form-select {
+    border-color: lighten($primary, 75%);
+    padding: 12px 16px;
+    border-radius: $primary-border-radius;
+    color: $dark-grey;
+    border: 1px solid $form-border-color;
+    @extend .font-md;
+    &.search-form {
+        padding: 12px;
+        padding-left: 40px;
+    }
+    &:focus {
+        border-color: $primary;
+        box-shadow: 0px 0px 0px 0px $black;
+    }
+}
+
+.icon-form-group {
+    position: relative;
+    svg,i {
+        @include absolute(50%, 10px, true, true);
+        margin-top: -6px;
+        color: $dark-grey;
+        @extend .font-lg;
+    }
+    .form-control,
+    .form-select {
+        padding-left: 30px
+    }
+    .find-btn {
+        @include absolute(0, 0, true, false);
+        height: 100%;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+    }
+}
+
+input::placeholder,
+input::-webkit-input-placeholder,
+input::-moz-placeholder,
+input:-ms-input-placeholder {
+    color: $dark-grey;
+}
+
+.error {
+    color: red !important;
+    @extend .font-xs;
+}
+
+// -----------------------------
+// checkbox form control 
+// -----------------------------
+.form-check-input:checked {
+    background-color: $primary;
+    border-color: $primary;
+}
+.form-check-input:focus {
+    box-shadow: 0 0 0 0 rgba(13,110,253,.25);
+}
+.form-check-input:hover,.form-check-label:hover {
+    cursor: pointer;
+}
+
+// ------------------------------
+// file upload form control drag and drop 
+// ------------------------------
+.file-upload {
+    $upload-color: #D1D1D1;
+    .upload-area {
+        color: $upload-color;
+        text-align: center;
+        padding: $padding-default;
+        border: 2px dashed $upload-color;
+        border-radius: 12px;
+        h5 {
+            color: $upload-color;
+        }
+        .icon {
+            margin-bottom: 10px;
+            svg {
+                font-size: 40px;
+            }
+        }
+        .btn{
+            padding: 6px 16px;
+        }
+         :hover {
+            cursor: pointer;
+        }
+    }
+    .file-list{
+        @include flex(space-between, center, 10px);
+        padding: 6px 0px;
+        p{
+            word-break: break-all;
+            width: 33%;
+        }
+        @media #{$large-mobile-767} {
+            flex-direction: column;
+            align-items: flex-start;
+            p{
+                width: 100%;
+            }
+        }
+    }
+}
+
+.search-form{
+    width: 100%;
+    min-width: 235px;
+    .form-control{
+        background: $bg-grey;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: none;
+    }
+}
+
+.feedback-form{
+    height: 150px !important;
+}
+
+.form-floating>label {
+    position: absolute;
+    top: 1px;
+    left: 6px;
+    height: 100%;
+    padding: 0px 0.75rem;
+    pointer-events: none;
+    border: 1px solid transparent;
+    transform-origin: 0 0;
+    transition: opacity .1s ease-in-out,transform .1s ease-in-out;
+    background: #fff;
+    height: 24px;
+    padding-top: 5px;
+}
+.form-floating>.form-control:focus~label, .form-floating>.form-control:not(:placeholder-shown)~label, .form-floating>.form-select~label {
+    opacity: 1;
+    transform: scale(.85) translateY(-16px) translateX(0.15rem);
+}
+
+// .form-check {
+//     display: block;
+//     margin-bottom: 15px;
+// }
+// .form-check input {
+//     padding: 0;
+//     height: initial;
+//     width: initial;
+//     margin-bottom: 0;
+//     display: none;
+//     cursor: pointer;
+// }
+// .form-check label {
+//     position: relative;
+//     cursor: pointer;
+// }
+// .form-check label:before {
+//     content: '';
+//     -webkit-appearance: none;
+//     background-color: transparent;
+//     border: 2px solid #0079bf;
+//     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+//     padding: 10px;
+//     display: inline-block;
+//     position: relative;
+//     vertical-align: middle;
+//     cursor: pointer;
+//     margin-right: 5px;
+// }
+// .form-check input:checked+label:after {
+//     content: '';
+//     display: block;
+//     position: absolute;
+//     top: 2px;
+//     left: 9px;
+//     width: 6px;
+//     height: 14px;
+//     border: solid #0079bf;
+//     border-width: 0 2px 2px 0;
+//     transform: rotate(45deg);
+// }

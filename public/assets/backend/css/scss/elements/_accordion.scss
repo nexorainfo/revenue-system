@@ -1,0 +1,32 @@
+.accordion {
+    .accordion-item {
+        border: none;
+        line-height: 32px;
+        background: transparent;
+        @extend .font-lg;
+        .accordion-header {
+            button {
+                @extend .font-lg;
+                border-bottom: 1px solid #c6c6c6;
+                padding: 30px 16px 16px 16px;
+                background: transparent;
+            }
+        }
+    }
+    .accordion-button:hover {
+        color: $primary;
+    }
+    .accordion-button:focus {
+        box-shadow: 0 0 0 0 $black;
+    }
+    .accordion-button:after {
+        width: 10px;
+        height: 10px;
+        background-size: 10px;
+    }
+    .accordion-button[aria-expanded="true"] {
+        background: none;
+        color: $primary;
+        @extend .font-medium
+    }
+}

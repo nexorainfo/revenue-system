@@ -1,0 +1,85 @@
+.wizard-steps {
+    @include flex(space-between, flex-start, 0);
+    .wizard-steps-item {
+        position: relative;
+        width: 100%;
+        text-align: center;
+        z-index: 0;
+        transition: width 2s ease-in-out;
+        .step-count {
+            display: block;
+            @include rectangle(50px, 50px, 50px);
+            @include flex(center, center, 0);
+            margin: auto;
+            background: $white;
+            border: 1px solid $dark-grey;
+            text-align: center;
+            margin-bottom: 10px;
+            @extend .font-lg;
+            @extend .font-medium;
+            @media #{$large-mobile-767} {
+                @include rectangle(36px, 36px, 36px);
+            }
+        }
+        .step-name {
+            @extend .font-medium;
+            @media #{$large-mobile-767} {
+                font-size: 14px;
+            }
+        }
+        &::before {
+            @include absolute-content('', 25px, 50%, true, true);
+            @include rectangle(3px, 100%, 5px);
+            z-index: -1;
+            background: #CBCBCB;
+            @media #{$large-mobile-767} {
+                top: 18px;
+                font-size: 12px;
+            }
+        }
+        &:last-child::before {
+            display: none;
+        }
+        &.active,
+        &.completed {
+            .step-count {
+                background: $secondary;
+                color: $white;
+                border-color: $secondary;
+            }
+            .step-name {
+                color: $secondary;
+            }
+        }
+        &.completed::before {
+            background: $secondary;
+            height: 3px;
+            width: 100%;
+        }
+    }
+}
+
+.wizard-vertical{
+    $gap-height:40px;
+    flex-direction: column;
+    gap: $gap-height;
+    .wizard-steps-item{
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        .step-count{
+            margin: 0;
+        }
+        &::before{
+            height: $gap-height;
+            width: 3px;
+            left: 24px;
+            top: 100%;
+        }
+        &.completed::before {
+            background: $secondary;
+            height: $gap-height;
+            width: 3px;
+        }
+    }
+}

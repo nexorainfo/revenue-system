@@ -1,0 +1,20 @@
+a {
+  text-decoration: none;
+  color: $body-color;
+  @extend .font-md;
+  &:hover {
+    text-decoration: none;
+    transition: $transition-default;
+    color: $primary;
+    @extend .font-medium;
+  }
+}
+a.simple-link {
+  text-decoration: none;
+  color: $body-color;
+  &:hover {
+    text-decoration: none;
+    // color: $secondary;
+    // @extend .font-light;
+  }
+}

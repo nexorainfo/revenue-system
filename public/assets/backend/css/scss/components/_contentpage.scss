@@ -1,0 +1,42 @@
+.content-page {
+    margin-left: 230px;
+
+    .card {
+        .avatar-sm {
+            height: 44px;
+            width: 44px;
+            background-color: $light-primary;
+            img{
+                height: 24px;
+                width: 24px;
+
+            }
+            .avatar-title {
+                color: $primary;
+            }
+        }
+    }
+}
+.icon{
+    height: 24px;
+    width: 24px;
+}
+.breadcrumb-item.active {
+    color: $primary;
+}
+
+tr:last-child td {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+ th:first-child {
+    border-top-left-radius: 10px;
+}
+
+ th:last-child {
+    border-top-right-radius: 10px;
+}
+.table > :not(caption) > * > * {
+border-bottom: none;
+}

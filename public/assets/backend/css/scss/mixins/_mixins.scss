@@ -1,0 +1,72 @@
+// mixin for different shapes 
+@mixin rectangle($height, $width, $border-radius) {
+    height: $height;
+    width: $width;
+    border-radius: $border-radius;
+}
+
+@mixin image($height, $width, $object-fit) {
+    height: $height;
+    width: $width;
+    object-fit: $object-fit;
+}
+
+// responsive padding for devices depend on size
+// $base-padding: 20px;
+@mixin responsive-padding($paddingX, $paddingY) {
+    padding: $paddingX $paddingY;
+    @media only screen and (max-width: 1200px) {
+        padding: $paddingX $paddingY;
+    }
+    @media only screen and (max-width: 1100px) {
+        padding: $paddingX $paddingY;
+    }
+    @media only screen and (max-width: 992px) {
+        padding: $paddingX * 0.8 $paddingY * 0.8;
+    }
+    @media only screen and (max-width: 768px) {
+        padding: $paddingX * 0.8 $paddingY * 0.8;
+    }
+    @media only screen and (max-width: 600px) {
+        padding: $paddingX * 0.6 $paddingY * 0.8;
+    }
+    @media only screen and (max-width: 576px) {
+        padding: $paddingX * 0.5 $paddingY * 0.8;
+    }
+    @media only screen and (max-width: 480px) {
+        padding: $paddingX * 0.3 $paddingY * 0.8;
+    }
+}
+
+@mixin absolute($top, $left, $is-top: true, $is-left: true) {
+    position: absolute;
+    @if $is-top {
+        top: $top;
+    }
+    @else {
+        bottom: $top;
+    }
+    @if $is-left {
+        left: $left;
+    }
+    @else {
+        right: $left;
+    }
+}
+
+@mixin absolute-content ($content, $top, $left, $is-top: true, $is-left: true) {
+    @include absolute($top, $left, $is-top: $is-top, $is-left: $is-left);
+    content: $content;
+}
+
+@mixin flex($justify-content, $align-items, $gap) {
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+    gap: $gap;
+}
+
+@mixin grid-template-columns($number) {
+    display: grid;
+    grid-template-columns: repeat($number, minmax(0, $number+fr))
+}

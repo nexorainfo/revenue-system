@@ -1,0 +1,156 @@
+$darkenPercentate: 8%;
+
+.btn-wrap {
+  display: flex;
+  gap: 8px;
+  width: fit-content;
+}
+
+.btn {
+  border-radius: $primary-border-radius;
+  padding: 8px 12px;
+  transition: $transition-default;
+  @include flex(center, center, 3px);
+  @extend .font-md;
+  @extend .font-light;
+  width: fit-content;
+
+  &:focus {
+    box-shadow: 0 0 0 0 $black;
+  }
+
+  &.radius-50 {
+    border-radius: calc($primary-border-radius/2);
+  }
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  @extend .font-sm;
+}
+
+.btn-xs {
+  padding: 4px 8px;
+  @extend .font-xs;
+}
+
+.btn-icon {
+  // padding: 8px 12px;
+  // box-shadow: $shadow-primary;
+  // color: darken(
+  //     $primary,
+  //     $darkenPercentate
+  //   );
+  filter: brightness(0) saturate(100%) invert(29%) sepia(6%) saturate(912%) hue-rotate(169deg) brightness(92%) contrast(85%);
+
+  &:hover {
+    filter: brightness(0) saturate(100%) invert(30%) sepia(20%) saturate(3403%) hue-rotate(193deg) brightness(93%) contrast(89%);
+  }
+}
+
+.btn-primary {
+  background: $primary;
+  border-color: $primary;
+
+  &:hover {
+    background-color: darken($primary,
+        $darkenPercentate); // Darken the background color by 10%
+
+    border-color: darken($primary,
+        $darkenPercentate); // Darken the background color by 10%
+  }
+
+  &.btn-outline {
+    background: $white;
+    color: $primary;
+    border-color: $primary;
+    //  
+  }
+}
+
+.btn-disable {
+  background: $grey;
+  border-color: $grey;
+
+  &:hover {
+    background-color: darken($grey,
+        $darkenPercentate); // Darken the background color by 10%
+    border-color: darken($grey,
+        $darkenPercentate); // Darken the background color by 10%
+  }
+}
+
+.btn-secondary {
+  background: $secondary;
+  border-color: $secondary;
+
+  &:hover {
+    background-color: darken($secondary,
+        $darkenPercentate); // Darken the background color by 10%
+    border-color: darken($secondary,
+        $darkenPercentate); // Darken the background color by 10%
+  }
+
+  &.btn-outline {
+    background: $white;
+    color: $secondary;
+  }
+}
+
+.btn-success {
+  background: $success;
+  border-color: $success;
+
+  &:hover {
+    background-color: darken($success,
+        $darkenPercentate); // Darken the background color by 10%
+    border-color: darken($success,
+        $darkenPercentate); // Darken the background color by 10%
+  }
+
+  &.btn-outline {
+    background: $white;
+    color: $success;
+  }
+}
+
+.btn-danger {
+  background: $danger;
+  border-color: $danger;
+
+  &:hover {
+    background-color: darken($danger,
+        $darkenPercentate); // Darken the background color by 10%
+    border-color: darken($danger,
+        $darkenPercentate); // Darken the background color by 10%
+  }
+
+  &.btn-outline {
+    background: $white;
+    color: $danger;
+  }
+}
+
+.btn-tertiary {
+  background: $light-bg;
+  border-color: $light-bg; // Darken the background color by 10%
+
+  &:hover {
+    background: $grey;
+    border-color: $grey !important;
+  }
+}
+
+.btn-outline {
+  background: $white;
+  border-color: $dark-grey;
+  color: $dark-grey;
+}
+
+.btn-icon-only {
+  color: $body-color;
+  border-radius: 50%;
+  @include rectangle(34px, 34px, 34px);
+  border: 1px solid $body-color;
+  padding: 0;
+}

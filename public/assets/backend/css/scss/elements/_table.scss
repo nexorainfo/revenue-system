@@ -1,0 +1,42 @@
+table {
+    @extend .font-md;
+    color: $dark-grey;
+    .form-check{
+        min-height: auto;
+    }
+    tbody{
+        tr > td{
+            color: #444444 !important;
+        }
+    }
+    thead {
+        background: $light-bg;
+        tr {
+            th {
+                color: #222222;
+                font-weight: 600;
+                border-bottom: none;
+                padding: 12px 12px !important;
+                vertical-align: middle;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding: 10px 12px !important;
+                vertical-align: middle;
+            }
+        }
+    }
+    .btn-wrap {
+        gap: 5px;
+    }
+    .btn {
+        // color: $primary;
+        @include rectangle(26px, 26px, 2px);
+        @include flex(center, center, 0);
+        font-size: 13px;
+        @extend .title-up;
+    }
+}

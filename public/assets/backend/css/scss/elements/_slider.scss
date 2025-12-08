@@ -1,0 +1,13 @@
+.slider-btn {
+    $position: 140px;
+    color: $dark-grey;
+    font-size: 30px;
+    border: none;
+    background: none;
+    @include absolute(5px, $position, false, false);
+    z-index: 3;
+    &.btn-left {
+        right: calc($position + 40px);
+    }
+    &.btn-right {}
+}

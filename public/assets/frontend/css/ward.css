@@ -1,0 +1,61 @@
+.container {
+    background-color: #e5e5e5;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.ward-title {
+    margin-top: 60px;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 38px;
+    color: #4a596b !important;
+    margin-bottom: 20px !important;
+}
+
+.wardcard {
+    margin-top: 10px;
+    background: #124f9f;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    height: 120px;
+    /* width: 150px; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-right: 15px;
+    width: calc(12.5% - 15px);
+}
+
+.wardcard:hover {
+    box-shadow: 0px 4px 15px rgb(38, 58, 87);
+    border-radius: 6px;
+}
+
+.container .wardcard a {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+}
+
+.container .wardcard a span {
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 46px;
+    text-align: center;
+    color: #ffffff;
+    display: block;
+}
+.wardcard:hover a,
+.wardcard:hover a span {
+    color: #e28118;
+}
+@media only screen and (max-width: 600px) {
+    .wardcard {
+        width: 100%; /* Adjust the width for small screens */
+    }
+}

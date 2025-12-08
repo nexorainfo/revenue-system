@@ -1,0 +1,99 @@
+* {
+    // @extend .font-md;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    color: $body-color;
+}
+
+h2 {
+    @extend .font-xl;
+}
+
+h4 {
+    @extend .font-lg;
+}
+
+h6 {
+    @extend .font-md;
+}
+
+p {
+    line-height: 24px;
+    @extend .font-md;
+}
+
+a {
+    @extend .font-md;
+}
+
+.text-primary {
+    color: $primary !important;
+}
+
+.text-secondary {
+    color: $secondary !important;
+}
+
+.text-tertiary {
+    color: $tertiary !important;
+}
+
+.text-grey {
+    color: $dark-grey !important;
+}
+
+.bg-primary {
+    background: $primary !important;
+}
+
+.bg-secondary {
+    background: $secondary !important;
+}
+
+.bg-tertiary {
+    background: $tertiary !important;
+}
+
+.title {
+    font-size: calc($primary-font-size * 1.375);
+    @extend .font-bold;
+    ;
+    color: $primary;
+}
+
+.subtitle {
+    @extend .font-medium;
+}
+
+.width-fit-content{
+    min-width: fit-content;
+}
+
+.search-filter{
+    .filter-select{
+        .form-select{
+            width: 250px;
+        }
+    }
+}
+
+.ck-content{
+    *{
+        font-family: $body-font !important;
+    }
+}
+
+.row-custom{
+    --bs-gutter-y: 1.5rem;
+}
+.gy-0{
+    --bs-gutter-y: 0;
+
+}

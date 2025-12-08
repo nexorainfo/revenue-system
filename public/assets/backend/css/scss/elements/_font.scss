@@ -1,0 +1,37 @@
+.font-xs {
+    font-size: calc($primary-font-size * 0.75)
+}
+
+.font-sm {
+    font-size: calc($primary-font-size * 0.875)
+}
+
+.font-md {
+    font-size: $primary-font-size;
+}
+
+.font-lg {
+    font-size: calc($primary-font-size * 1.125);
+}
+
+.font-xl {
+    font-size: calc($primary-font-size * 1.25);
+}
+.font-xxl {
+    font-size: calc($primary-font-size * 1.5);
+}
+.font-xxxl {
+    font-size: calc($primary-font-size * 2);
+}
+
+.font-light {
+    font-weight: $font-light !important;
+}
+
+.font-medium {
+    font-weight: $font-medium !important;
+}
+
+.font-bold {
+    font-weight: $font-bold !important;
+}

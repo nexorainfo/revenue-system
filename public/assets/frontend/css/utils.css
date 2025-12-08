@@ -1,0 +1,91 @@
+.table-1 {
+    height: 80vh;
+    overflow: hidden;
+}
+
+.table-2 {
+    overflow: hidden;
+    height: 30vh;
+}
+
+.logo {
+    height: 65px;
+}
+
+.logo-nep {
+    height: 55px
+}
+
+.video-container {
+    height: 20%;
+}
+
+.vertical-scroll {
+    height: 20vh;
+}
+
+video {
+    height: 27vh;
+}
+
+.table-headcolor {
+    background-color: red !important;
+}
+
+.sub-title {
+    font-size: 25px !important;
+    color: white;
+}
+
+.sub-header {
+    font-size: 14px
+}
+
+.newari-img {
+    height: 100%;
+}
+
+a.link-btn:hover {
+    color: #eb0505;
+}
+
+img {
+    object-fit: contain;
+}
+
+.program-img {
+    object-fit: cover;
+    height: 18vh;
+    width: 100%;
+}
+
+
+.sub-heading {
+    background-color: #263a57;
+    padding: 0px;
+    font-size: 15px;
+}
+
+
+.title {
+    font-size: 18px;
+    line-height: 25px;
+    margin-bottom: 10px !important;
+    background-color: red;
+}
+
+.jana {
+    font-size: 15px;
+    line-height: 25px;
+    margin-bottom: 1px !important;
+    background-color: #263a57;
+}
+
+
+.d-block {
+    font-size: 15px;
+}
+
+.sticky-top {
+    z-index: 2000 !important;
+}

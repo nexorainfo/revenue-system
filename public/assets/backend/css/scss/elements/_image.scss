@@ -1,0 +1,13 @@
+.image-fit-contain {
+    overflow: hidden;
+    img {
+        @include image(100%, 100%, contain)
+    }
+}
+
+.image-fit-cover {
+    overflow: hidden;
+    img {
+        @include image(100%, 100%, cover)
+    }
+}

@@ -1,0 +1,44 @@
+section {
+    @include responsive-padding(60px, 0px);
+}
+
+.bg-grey {
+    background: $bg-grey;
+}
+
+.heading-title {
+    @include responsive-padding(32px, 0px);
+    padding-top: 0;
+    h2 {
+        color: $primary;
+        font-size: 32px;
+        span {
+            @extend .font-bold;
+            ;
+        }
+    }
+    @media #{$large-mobile-767} {
+        h2{
+            font-size: 24px;
+        }
+    }
+    h4 {
+        font-size: 26px;
+        @extend .font-medium;
+        color: $primary;
+    }
+    @media #{$large-mobile-767} {
+        h4{
+            font-size: 22px;
+        }
+    }
+    h6 {
+        color: $secondary;
+    }
+    p {}
+}
+
+.auth-section {
+    @include responsive-padding($padding-default, 0px)
+}
+

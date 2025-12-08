@@ -1,0 +1,52 @@
+.modal {
+  .btn-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 6px !important;
+    border: 1px solid #bababa;
+    border-radius: 40px;
+    @extend .btn-icon;
+    font-size: 8px
+  }
+
+  .modal-content {
+    @extend .card;
+  }
+
+  .btn {
+    min-width: 100px !important;
+  }
+}
+
+.confirmation-icon {
+  @include rectangle(105px, 105px, 105px);
+  @include flex(center, center, 0);
+  margin: auto;
+  margin-bottom: 30px;
+
+  svg,
+  i {
+    font-size: 32px;
+  }
+
+  &.danger,
+  &.warning {
+    background: lighten($color: $danger, $amount: 45%);
+
+    svg,
+    i {
+      color: $danger;
+    }
+  }
+
+  &.success {
+    background: lighten($color: $success, $amount: 45%);
+
+    svg,
+    i {
+      color: $success;
+    }
+  }
+
+}

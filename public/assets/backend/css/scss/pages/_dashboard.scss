@@ -1,0 +1,24 @@
+@import "../components/welcomecard";
+@import "../components/usercard";
+.db-card-list {
+    position: relative;
+    a {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: 2;
+    }
+    .icon {
+        @include rectangle(45px, 45px, 45px);
+        background: $primary;
+        // background: lighten($primary, 12%);
+
+        @include flex(center, center, 0);
+        i{
+          @extend .font-xxl;
+          color: $white;
+        }
+    }
+}

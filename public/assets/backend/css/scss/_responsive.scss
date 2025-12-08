@@ -1,0 +1,46 @@
+/*----------------------------------------*/
+
+
+/*  Responsive Css
+/*----------------------------------------*/
+
+@media (min-width: 1400px) {
+    .container-lg {
+        max-width: 1920px;
+    }
+}
+
+@media #{$desktop-device-992} {}
+
+@media #{$large-mobile-767} {
+    .responsive-md-none {
+        display: none;
+    }
+    .responsive-md-block {
+        display: block !important;
+    }
+    .search-filter {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    .search-filter {
+        .filter-select {
+            width: 100%;
+            .form-select {
+                width: 100%;
+            }
+        }
+    }
+    .affilation {
+        padding: 12px 12px !important;
+    }
+}
+
+@media #{$small-mobile-575} {
+    .responsive-sm-none {
+        display: none;
+    }
+    .responsive-sm-block {
+        display: block !important;
+    }
+}

@@ -1,0 +1,15 @@
+.card {
+    border: none;
+    border-radius: calc($primary-border-radius);
+    // box-shadow: $shadow-primary;
+    @include responsive-padding($padding-default, $padding-default);
+    &.card-p-75 {
+        @include responsive-padding($padding-default*0.75, $padding-default*0.75);
+    }
+    &.card-p-50 {
+        @include responsive-padding($padding-default*0.5, $padding-default*0.5);
+    }
+    @media #{$large-mobile-767} {
+      padding: 16px !important;
+    }
+}

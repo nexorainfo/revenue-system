@@ -1,0 +1,15 @@
+.welcome-card {
+    .card-top {
+        background-color: lighten($primary, 50%);
+    }
+    .welcome-image {
+        height: 132px;
+    }
+    .user-image {
+        @include rectangle(72px, 72px, 72px);
+        border: 5px solid $white;
+        margin-top: -36px;
+
+
+    }
+}

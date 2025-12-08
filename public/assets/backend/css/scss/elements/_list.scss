@@ -1,0 +1,40 @@
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul.icon-list {
+    li {
+        position: relative;
+        padding: 5px 0px;
+        padding-left: 18px;
+        &::before {
+            @include absolute-content('\2713', 6px, 0px, true, true);
+            color: $primary;
+            // font-family: "Segoe UI Symbol", sans-serif;
+            @extend .font-bold;
+            // content: '';
+            // position: absolute;
+            // left: 0;
+            // top: 0;
+            // height: 100%;
+            // width: 100%;
+        }
+    }
+}
+
+ul.nested-list {
+    list-style: decimal;
+    padding-left: 16px;
+    li {
+        margin: 16px 0px;
+        ul {
+            margin-top: 5px;
+            list-style: disc;
+            padding-left: 12px;
+            li {
+                margin: 0;
+            }
+        }
+    }
+}

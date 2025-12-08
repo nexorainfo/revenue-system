@@ -1,0 +1,58 @@
+// @media #{$large-mobile-767} {
+//     .filter {
+//         display: none;
+//     }
+//     .filter-sm-device {
+//         display: block;
+//         height: 50vh !important;
+//         margin-bottom: 24px;
+//         padding-bottom: 0px !important;
+//         .find-course {
+//             position: sticky;
+//             bottom: 0;
+//             width: 100%;
+//             left: 0;
+//             padding: 20px 0px;
+//             background: $white;
+//         }
+//         &.profile-sidebar{
+//             height: auto !important;
+//         }
+//     }
+// }
+.filter-dropdown {
+    .dropdown-menu {
+        width: 300px;
+    }
+    .dropdown-toggle::after {
+        display: none;
+    }
+}
+
+.filter {
+    border: 1px solid #C6D4EB;
+    @extend .font-lg;
+    max-height: 450px;
+    .form-check {
+        min-height: auto;
+        margin: 10px 0px;
+    }
+}
+
+.filter-btn-wrap {
+    gap: 5px;
+    .btn {
+        @extend .btn-sm;
+        @extend .btn-outline;
+        padding: 4px 12px;
+        color: $dark-grey;
+        &:hover{
+            @extend .btn-tertiary;
+        }
+        &.active{            
+            @extend .btn-primary; 
+            color: $white;
+            background: $primary !important;
+        }
+    }
+}

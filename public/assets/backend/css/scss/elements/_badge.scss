@@ -1,0 +1,20 @@
+.badge{
+  // background: red;
+  border-radius: 2px;
+  @extend .font-sm;
+  @extend .font-light;
+  padding: 4px 10px;
+}
+
+.badge.success{
+  color: $success;
+  background: lighten($success, 45%);
+}
+.badge.danger{
+  color: $danger;
+  background: lighten($danger, 45%);
+}
+.badge.warning{
+  color: $warning;
+  background: lighten($warning, 45%);
+}

@@ -1,0 +1,67 @@
+.ace-xcode .ace_gutter {
+    background: #fff !important;
+}
+
+#builder {
+    .formbuilder {
+        .formcomponents {
+            .builder-sidebar {
+                .card {
+                    padding: 0px;
+                    margin-bottom: 8px;
+
+                    .card-body {
+                        padding: 0 !important;
+
+                        .btn {
+                            width: 100%;
+                            display: block;
+                            padding: 8px;
+
+                            i {
+                                margin-right: 15px !important;
+                            }
+                        }
+                    }
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.formio-dialog-content {
+    background: #fff !important;
+
+    .card {
+        .card-header {
+            background-color: #fff;
+
+            .nav-tabs {
+                .nav-link {
+                    &.active {
+                        border-bottom: 2px solid $primary;
+                        // border-color: #fff;
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                    }
+                }
+            }
+        }
+    }
+    .component-edit-container{
+        .btn-success{
+            margin-bottom: 12px;
+        }
+        .btn-secondary{
+            margin-bottom: 12px;
+        }
+    }
+}
+.ace-xcode .ace_gutter-active-line {
+    background-color: #fff;
+}

@@ -1,0 +1,23 @@
+.dropdown {
+    .dropdown-toggle {}
+    .dropdown-menu {
+      box-shadow: $shadow-primary;
+      border: none;
+        .dropdown-item {
+            padding: 6px 12px;
+            @include flex(flex-start, center, 4px);
+            svg {
+                color: #8a8a8a;
+                font-size: 16px;
+            }
+            &:hover{
+              color: $primary;
+              font-weight: inherit;
+              @extend .font-light;
+              svg{
+                color: $primary;
+              }
+            }
+        }
+    }
+}

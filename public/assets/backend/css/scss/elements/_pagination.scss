@@ -1,0 +1,32 @@
+.pagination{
+  @extend .font-sm;
+  ul{
+    
+    @include flex(center, center, 5px);
+  }
+  .page-item{
+    .page-link{
+      @include rectangle(24px, 24px, 4px);
+      @extend .font-sm;
+      @include flex(center, center, 0);
+      background: $light;
+      color: $dark-grey;
+
+    }
+    &.active{
+      .page-link{
+        background: $primary;
+        border-color: $primary;
+        color: $white;
+      }
+    }
+  }
+  .page-item.disabled{
+    .page-link{
+      background: $grey;
+      border-color: $grey;
+      color: $dark-grey;
+    }
+    
+  }
+}
