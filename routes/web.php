@@ -8,5 +8,5 @@ Route::get('/login', [LoginController::class, 'loginPage'])->name('loginPage');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth:web');
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
