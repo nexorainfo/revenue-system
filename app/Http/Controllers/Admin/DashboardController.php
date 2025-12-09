@@ -71,11 +71,11 @@ final class DashboardController extends Controller
     public function ajaxData(): array
     {
         $results = DB::table('invoices')
-            ->selectRaw('invoices.is_cash_invoice,invoices.payment_method,invoices.payment_date,invoices.payment_date_en,invoices.fiscal_year_id, SUM((invoice_particulars.rate * invoice_particulars.quantity)+ (invoice_particulars.rate * invoice_particulars.quantity) * invoice_particulars.due + invoice_particulars.fine) as total')
+            ->selectRaw('invoices.payment_method,invoices.payment_date,invoices.payment_date_en,invoices.fiscal_year_id, SUM((invoice_particulars.rate * invoice_particulars.quantity)+ (invoice_particulars.rate * invoice_particulars.quantity) * invoice_particulars.due + invoice_particulars.fine) as total')
             ->join('invoice_particulars', 'invoice_particulars.invoice_id', '=', 'invoices.id')
             ->whereNull('invoices.deleted_at')
             ->whereNull('invoice_particulars.deleted_at')
-            ->groupBy('invoices.fiscal_year_id', 'invoices.payment_date', 'invoices.is_cash_invoice', 'invoices.payment_method', 'invoices.payment_date_en')
+            ->groupBy('invoices.fiscal_year_id', 'invoices.payment_date',  'invoices.payment_method', 'invoices.payment_date_en')
             ->get();
         $fiscal_year_id = officeSetting()->fiscal_year_id;
         return [
@@ -90,8 +90,8 @@ final class DashboardController extends Controller
 
     public function totalRevenue(Collection $result): array
     {
-        $cashReceiptTotal = $result->where('is_cash_invoice', 1)->sum('total');
-        $creditReceiptTotal = $result->where('is_cash_invoice', 0)->sum('total');
+        $cashReceiptTotal = $result->sum('total');
+        $creditReceiptTotal = $result->sum('total');
         $labels = ['नगदी रसिद', 'मालपोत रसिद'];
         $subjects = collect([
             ['title' => 'नगदी रसिद', 'total' => $cashReceiptTotal],
@@ -160,8 +160,8 @@ final class DashboardController extends Controller
         $totalCashRevenue = collect();
         $fiscalYears = FiscalYear::all()->each(function ($fiscalYear) use ($result, $totalCashRevenue, $totalRevenue, $totalLandRevenue) {
             $totalRevenue->push($result->where('fiscal_year_id', $fiscalYear->id)->sum('total'));
-            $totalLandRevenue->push($result->where('fiscal_year_id', $fiscalYear->id)->where('is_cash_invoice', 0)->sum('total'));
-            $totalCashRevenue->push($result->where('fiscal_year_id', $fiscalYear->id)->where('is_cash_invoice', 1)->sum('total'));
+            $totalLandRevenue->push($result->where('fiscal_year_id', $fiscalYear->id)->sum('total'));
+            $totalCashRevenue->push($result->where('fiscal_year_id', $fiscalYear->id)->sum('total'));
         });
 
 
