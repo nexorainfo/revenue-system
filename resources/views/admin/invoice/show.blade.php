@@ -58,10 +58,14 @@
                             </div>
 
                             <div class="info">
-                                <p><strong>रसिद नं.:</strong> {{ $invoice->invoice_no }}</p>
-                                <p><strong>सेवाग्राहीको नाम:</strong> {{ $invoice->name }}</p>
-                                <p><strong>ठेगाना:</strong> {{ $invoice->address }}</p>
-                                <p><strong>मिति:</strong> {{ get_nepali_number($invoice->payment_date) }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <p><strong>रसिद नं.:</strong> {{ $invoice->invoice_no }}</p>
+                                    <p><strong>मिति:</strong> {{ get_nepali_number($invoice->payment_date) }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p><strong>सेवाग्राहीको नाम:</strong> {{ $invoice->name }}</p>
+                                    <p><strong>ठेगाना:</strong> {{ $invoice->address }}</p>
+                                </div>
                             </div>
 
 
@@ -118,10 +122,15 @@
                             </div>
 
                             <div class="info">
-                                <p><strong>रसिद नं.:</strong> {{ $invoice->invoice_no }}</p>
-                                <p><strong>सेवाग्राहीको नाम:</strong> {{ $invoice->name }}</p>
-                                <p><strong>ठेगाना:</strong> {{ $invoice->address }}</p>
-                                <p><strong>मिति:</strong> {{ get_nepali_number($invoice->payment_date) }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <p><strong>रसिद नं.:</strong> {{ $invoice->invoice_no }}</p>
+                                    <p><strong>मिति:</strong> {{ get_nepali_number($invoice->payment_date) }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p><strong>सेवाग्राहीको नाम:</strong> {{ $invoice->name }}</p>
+                                    <p><strong>ठेगाना:</strong> {{ $invoice->address }}</p>
+                                </div>
+
                             </div>
 
                             <table class="table table-bordered">
