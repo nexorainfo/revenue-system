@@ -2,15 +2,17 @@
 
 namespace App\Models\Settings;
 
+use App\Models\InvoiceParticular;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\EventObserveTrait;
 
-class RevenueCategory extends Model
+final class RevenueCategory extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -37,6 +39,20 @@ class RevenueCategory extends Model
     public function revenueCategories(): HasMany
     {
         return $this->hasMany(RevenueCategory::class, 'revenue_category_id')->with('revenueCategories');
+    }
+
+    public function revenues(): HasMany
+    {
+        return $this->hasMany(Revenue::class);
+    }
+
+    public function invoiceParticulars(): RevenueCategory|HasManyThrough
+    {
+        return $this->hasManyThrough(InvoiceParticular::class, Revenue::class);
+    }
+    public function nestedRevenueCategories(): HasMany
+    {
+        return $this->hasMany(RevenueCategory::class, 'revenue_category_id')->with('revenueCategories','invoiceParticulars');
     }
 
     public function user(): BelongsTo

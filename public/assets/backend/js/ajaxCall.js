@@ -1,6 +1,15 @@
-function createTable(headerData, bodyData) {
+function createTable(headerData, fullResponse) {
+
     const tableDiv = document.getElementById("report_table");
     tableDiv.innerHTML = "";
+
+    /** Insert letter head only once **/
+    if (fullResponse.letterHead && !document.querySelector("#letterHeadContainer")) {
+        const letterHead = document.createElement("div");
+        letterHead.id = "letterHeadContainer";
+        letterHead.innerHTML = fullResponse.letterHead;
+        tableDiv.parentNode.insertBefore(letterHead, tableDiv);
+    }
 
     const table = document.createElement("table");
     table.className = "table table-bordered table-striped table-sm";
@@ -8,124 +17,132 @@ function createTable(headerData, bodyData) {
     const thead = document.createElement("thead");
     const tBody = document.createElement("tbody");
 
-    const header = document.createElement("tr");
-    const SnCell = document.createElement("th");
-    SnCell.innerHTML = "क्र.सं.";
-    header.appendChild(SnCell);
-    headerData.forEach((element) => {
-        const headerCell = document.createElement("th");
-        headerCell.className = 'text-nowrap'
-        const cellHeader = document.createTextNode(element);
-        headerCell.appendChild(cellHeader);
-        header.appendChild(headerCell);
+    /** Header Row **/
+    const headerRow = document.createElement("tr");
+    headerRow.appendChild(createCell("th", "क्र.सं."));
+
+    headerData.forEach((title) => {
+        const th = createCell("th", title);
+        th.className = "text-nowrap";
+        headerRow.appendChild(th);
     });
 
-    thead.appendChild(header);
+    thead.appendChild(headerRow);
     table.appendChild(thead);
 
-    bodyData.forEach((element, key) => {
+    /** Table Body **/
+    const fragment = new DocumentFragment();
+    let bodyData = fullResponse.data ?? [];
 
+    bodyData.forEach((rowData, key) => {
         const row = document.createElement("tr");
 
-        const cell = document.createElement("td");
+        row.appendChild(createCell("td", getNepaliNumber(key + 1)));
 
-        cell.innerHTML = getNepaliNumber(key + 1);
-
-        row.appendChild(cell);
-        table.appendChild(row);
-
-        Object.entries(element).forEach((value, index) => {
-            if (value[1] instanceof Array) {
-                const LiElement = document.createElement("li");
-
-                const EmptyDivElement = document.createElement("div");
-                EmptyDivElement.className = "detail";
-                LiElement.appendChild(EmptyDivElement);
-
-                const DetailMainDivElement = document.createElement("div");
-                DetailMainDivElement.className = "detail detail-main";
-
-                const FieldSetElement = document.createElement("fieldset");
-                const LegendElement = document.createElement("legend");
-                const SpanElement = document.createElement("span");
-                SpanElement.className = "bg-primary rounded px-1 text-white";
-                SpanElement.innerHTML = value[0];
-                LegendElement.appendChild(SpanElement);
-                FieldSetElement.appendChild(LegendElement);
-
-                const tableDataDiv = document.createElement("div");
-                tableDataDiv.innerHTML = "";
-                if (value[1].length > 0) {
-                    const childTable = document.createElement("table");
-                    childTable.className = "table table-bordered table-striped table-condensed";
-                    const childThead = document.createElement("thead");
-                    const childBody = document.createElement("tbody");
-                    const childHeader = document.createElement("tr");
-                    const childHeaderSnCell = document.createElement("th");
-                    childHeaderSnCell.innerHTML = "क्र.सं";
-                    childHeader.appendChild(childHeaderSnCell);
-                    Object.keys(value[1][0]).forEach((element) => {
-                        const childHeaderCell = document.createElement("th");
-                        const cellHeader = document.createTextNode(element);
-                        childHeaderCell.appendChild(cellHeader);
-                        childHeader.appendChild(childHeaderCell);
-                    });
-                    childThead.appendChild(childHeader);
-                    childTable.appendChild(childThead);
-
-                    Object.values(value[1]).forEach((element, key) => {
-                        const childRow = document.createElement("tr");
-
-                        const childSnDataCell = document.createElement("td");
-                        childSnDataCell.innerHTML = key + 1;
-                        childRow.appendChild(childSnDataCell);
-                        Object.values(element).forEach((value, index) => {
-                            const childDataCell = document.createElement("td");
-                            const cellData = document.createTextNode(value);
-                            childDataCell.appendChild(cellData);
-                            childRow.appendChild(childDataCell);
-                        });
-                        childBody.appendChild(childRow);
-                        childTable.appendChild(childBody);
-                    });
-
-                    tableDataDiv.appendChild(childTable);
-                } else {
-                    tableDataDiv.innerHTML = "No Data Found";
-                }
-                FieldSetElement.appendChild(tableDataDiv);
-                DetailMainDivElement.appendChild(FieldSetElement);
-                LiElement.appendChild(DetailMainDivElement);
-                UlElement.appendChild(LiElement);
+        Object.entries(rowData).forEach(([keyName, value]) => {
+            if (Array.isArray(value)) {
+                row.appendChild(renderChildTable(keyName, value));
             } else {
-                const dataCell = document.createElement("td");
-                const cellData = document.createTextNode(value[1]);
-                dataCell.appendChild(cellData);
-                row.appendChild(dataCell);
+                row.appendChild(createCell("td", value));
             }
         });
-        tBody.appendChild(row);
 
+        fragment.appendChild(row);
     });
+
+    /** Footer/Total Rows **/
+    (fullResponse.total ?? []).forEach((rowData) => {
+        const row = document.createElement("tr");
+
+        Object.values(rowData).forEach((col) => {
+            const cell = createCell("td", col.data || "");
+
+            if (col.colSpan) cell.colSpan = col.colSpan;
+            if (col.rowSpan) cell.rowSpan = col.rowSpan;
+            if (col.class) cell.className = col.class;
+
+            row.appendChild(cell);
+        });
+
+        fragment.appendChild(row);
+    });
+
+    tBody.appendChild(fragment);
     table.appendChild(tBody);
     tableDiv.appendChild(table);
-    return tableDiv;
+}
+
+
+/****************** Helper Functions ******************/
+
+function createCell(tag, text) {
+    const cell = document.createElement(tag);
+    cell.textContent = text ?? "";
+    return cell;
+}
+
+function renderChildTable(label, children) {
+    const container = document.createElement("td");
+
+    if (!children.length) {
+        container.textContent = "No Data Found";
+        return container;
+    }
+
+    const table = document.createElement("table");
+    table.className = "table table-bordered table-striped table-condensed";
+
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+
+    headRow.appendChild(createCell("th", "क्र.सं"));
+    Object.keys(children[0]).forEach((field) => {
+        headRow.appendChild(createCell("th", field));
+    });
+
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+
+    children.forEach((child, idx) => {
+        const row = document.createElement("tr");
+        row.appendChild(createCell("td", idx + 1));
+
+        Object.values(child).forEach((val) => {
+            row.appendChild(createCell("td", val));
+        });
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    container.appendChild(table);
+    return container;
 }
 
 function getHeader(data) {
     let headerData = [];
     Object.keys(data[0] ?? {}).forEach((key) => {
         if (!Array.isArray(data[0][key])) {
-
             headerData.push(key);
         }
     });
     return headerData;
 }
 
-// make ajax call from the form with report-filter-form id and data-url attribute for url in js
+function getNepaliNumber(data) {
+    const english = ['1','2','3','4','5','6','7','8','9','0'];
+    const nepali  = ['१','२','३','४','५','६','७','८','९','०'];
+
+    return data.toString().replace(/[0-9]/g, digit => nepali[english.indexOf(digit)]);
+}
+
+
+/****************** AJAX + UI Handling ******************/
+
 $(document).ready(function () {
-    // x-csrf protection
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -133,11 +150,12 @@ $(document).ready(function () {
     });
 
     $(document.body).delegate('#report-filter-form', 'submit', function (e) {
-        e.preventDefault()
-        // get attribute data-bs-url from form and assign it to const variable url
+        e.preventDefault();
+
         const url = $(this).attr('data-bs-url');
-        const submitFormBtn = $("#submitFormBtn");
+        const submitBtn = $("#submitFormBtn");
         const collapseFilterForm = $("#collapseFilterForm");
+
         $.ajax({
             type: "post",
             url: url,
@@ -145,24 +163,21 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             beforeSend: function () {
-                submitFormBtn.prop('disabled', true);
-                submitFormBtn.html("<i class='fa fa-spinner fa-spin'></i>");
+                submitBtn.prop('disabled', true).html("<i class='fa fa-spinner fa-spin'></i>");
             },
             success: function (resp) {
-                submitFormBtn.prop('disabled', false);
-                collapseFilterForm.collapse('hide')
-                submitFormBtn.html("पेश गर्नुहोस्");
-                console.log(resp.data);
+                submitBtn.prop('disabled', false).html("पेश गर्नुहोस्");
+                collapseFilterForm.collapse('hide');
+
                 const headerData = getHeader(resp.data);
-                createTable(headerData, resp.data)
+                createTable(headerData, resp);
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                submitFormBtn.prop('disabled', false)
-                submitFormBtn.html("पेश गर्नुहोस्");
-                toastMessage('error', XMLHttpRequest.responseJSON.message)
+            error: function (xhr) {
+                submitBtn.prop('disabled', false).html("पेश गर्नुहोस्");
+                toastMessage('error', xhr.responseJSON.message);
             }
         });
-    })
+    });
 
     function toastMessage(type, title) {
         swal.fire({
@@ -177,15 +192,3 @@ $(document).ready(function () {
         });
     }
 });
-
-function getNepaliNumber(data) {
-    const english = ['1','2','3','4','5','6','7','8','9','0'];
-    const nepali  = ['१','२','३','४','५','६','७','८','९','०'];
-
-    let result = data.toString();
-    english.forEach((num, index) => {
-        result = result.replaceAll(num, nepali[index]);
-    });
-
-    return result;
-}

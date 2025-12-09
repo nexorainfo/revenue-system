@@ -43,12 +43,9 @@ Route::prefix('revenue')->as('revenue.')->group(function () {
     Route::prefix('report')->as('report.')->controller(ReportController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('report', 'report')->name('report-data');
-        Route::get('invoice', 'invoice')->name('invoice');
-        Route::post('invoice-report', 'invoiceReport')->name('invoice-report');
-        Route::get('tax-payer', 'taxPayer')->name('tax-payer');
-        Route::post('tax-payer-report', 'taxPayerReport')->name('tax-payer-report');
-        Route::get('word-wise-invoice', 'wordWiseInvoice')->name('word-wise-invoice');
-        Route::post('word-wise-invoice-report', 'wordWiseInvoiceReport')->name('word-wise-invoice-report');
+        Route::get('revenue-type', 'revenueType')->name('revenue-type');
+        Route::post('revenue-type-report', 'revenueTypeReport')->name('revenue-type-report');
+
     });
 });
 
